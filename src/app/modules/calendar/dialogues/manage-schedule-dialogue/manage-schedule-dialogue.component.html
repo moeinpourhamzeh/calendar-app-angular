@@ -1,0 +1,40 @@
+<section class="dialogue-container flex flex-col">
+  <div class="flex flex-row w-full">
+    <button mat-icon-button class="" (click)="close()"><mat-icon>close</mat-icon></button>
+  </div>
+
+  <form [formGroup]="form" class="w-full flex flex-col mt-10">
+    <mat-form-field appearance="outline" class="">
+      <mat-label>Title</mat-label>
+      <input matInput
+             placeholder="Title"
+             type="text"
+             min="00:00"
+             max="23:59"
+             formControlName="title"
+             required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="">
+      <mat-label>Start</mat-label>
+      <input matInput
+             placeholder="Start"
+             type="time"
+             formControlName="dateStart"
+             required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="">
+      <mat-label>End</mat-label>
+      <input matInput
+             placeholder="End"
+             type="time"
+             min="00:00"
+             max="23:59"
+             formControlName="dateEnd"
+             required>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="w-full mt-10" (click)="submit()">Save</button>
+  </form>
+</section>

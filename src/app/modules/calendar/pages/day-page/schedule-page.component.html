@@ -1,0 +1,39 @@
+<div class="flex flex-row items-center justify-start w-full">
+  <p class="m-0 ml-10">Selected Date: {{date | date}}</p>
+  <button mat-raised-button
+          color="accent"
+          class="ml-10"
+          (click)="manageSchedule()">
+    <span>New Event</span>
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<div class="flex flex-row w-full">
+  <div style="width: 50px" class="flex flex-col h-full">
+    <button class="hour-text w-full flex flex-col justify-start"
+            *ngFor="let h of getRange(0, 24)">{{h}}</button>
+  </div>
+
+  <div (mouseup)="mouseUp($event)"
+       class="hour-container grow flex flex-col items-end boundary relative">
+    <button mat-raised-button
+            color="primary"
+            id="{{schedule.id}}"
+            *ngFor="let schedule of selectedList()"
+            cdkDragBoundary=".boundary"
+            cdkDragLockAxis="y"
+            cdkDrag
+            [cdkDragDisabled]="dragDisabled"
+            (cdkDragReleased)="onDragDropped(schedule)"
+            [cdkDragFreeDragPosition]="schedule.dragPosition"
+            [ngStyle]="{'height': schedule.height + 'px'}"
+            class="card flex flex-row justify-start items-center">
+      <span>{{schedule.title}}</span>
+      <span class=""> event starts at {{schedule.dateStart.getHours() | number:'2.0-0'}} : {{schedule.dateStart.getMinutes() | number:'2.0-0'}}</span>
+      <span class=""> and ends at {{schedule.dateEnd.getHours() | number:'2.0-0'}} : {{schedule.dateEnd.getMinutes() | number:'2.0-0'}}</span>
+      <button mat-icon-button (click)="manageSchedule(schedule)"><mat-icon>edit</mat-icon></button>
+      <button mat-icon-button (click)="deleteSchedule(schedule.id)"><mat-icon>delete</mat-icon></button>
+    </button>
+  </div>
+</div>
+

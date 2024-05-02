@@ -1,0 +1,25 @@
+
+
+li {
+  display: inline-block;
+  width: calc(100% / 7 - 2px);
+  border: solid 1px whitesmoke;
+  text-align: center;
+}
+
+.day-cell {
+  min-height: 100px;
+  cursor: pointer;
+  &:hover {
+    background-color: darkcyan;
+    color: white;
+  }
+}
+
+.today {
+  color: green;
+}
+
+.not-current-month {
+  background-color: whitesmoke;
+}
