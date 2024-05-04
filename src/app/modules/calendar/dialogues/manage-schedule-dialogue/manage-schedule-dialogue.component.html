@@ -35,6 +35,9 @@
              required>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" class="w-full mt-10" (click)="submit()">Save</button>
+    <div class="flex flex-row w-full justify-between mt-10">
+      <button mat-button color="accent" class="w-full" (click)="deleteSchedule()">Delete</button>
+      <button mat-raised-button color="primary" class="w-full ml-10" (click)="submit()">Save</button>
+    </div>
   </form>
 </section>

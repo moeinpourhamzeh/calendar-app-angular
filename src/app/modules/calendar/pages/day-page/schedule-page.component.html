@@ -1,4 +1,4 @@
-<div class="flex flex-row items-center justify-start w-full">
+<div class="flex flex-row items-center justify-start w-full header">
   <p class="m-0 ml-10">Selected Date: {{date | date}}</p>
   <button mat-raised-button
           color="accent"
@@ -15,25 +15,38 @@
   </div>
 
   <div (mouseup)="mouseUp($event)"
+       (mouseenter)="hideMouseTooltip = false"
+       (mouseleave)="hideMouseTooltip = true"
+       (mousemove)="showTooltip($event)"
+       (dblclick)="doubleClickCreateDefaultEvent($event)"
        class="hour-container grow flex flex-col items-end boundary relative">
     <button mat-raised-button
             color="primary"
             id="{{schedule.id}}"
             *ngFor="let schedule of selectedList()"
+            matTooltip="click to edit"
             cdkDragBoundary=".boundary"
             cdkDragLockAxis="y"
             cdkDrag
+            (mouseenter)="hideMouseTooltip = true"
+            (mouseleave)="hideMouseTooltip = false"
             [cdkDragDisabled]="dragDisabled"
+            (cdkDragStarted)="canOpenManageDialogue=false"
             (cdkDragReleased)="onDragDropped(schedule)"
             [cdkDragFreeDragPosition]="schedule.dragPosition"
+            (click)="manageSchedule(schedule)"
             [ngStyle]="{'height': schedule.height + 'px'}"
             class="card flex flex-row justify-start items-center">
       <span>{{schedule.title}}</span>
       <span class=""> event starts at {{schedule.dateStart.getHours() | number:'2.0-0'}} : {{schedule.dateStart.getMinutes() | number:'2.0-0'}}</span>
       <span class=""> and ends at {{schedule.dateEnd.getHours() | number:'2.0-0'}} : {{schedule.dateEnd.getMinutes() | number:'2.0-0'}}</span>
-      <button mat-icon-button (click)="manageSchedule(schedule)"><mat-icon>edit</mat-icon></button>
-      <button mat-icon-button (click)="deleteSchedule(schedule.id)"><mat-icon>delete</mat-icon></button>
     </button>
+
+    <button disabled
+            class="mouse-tooltip"
+            *ngIf="!hideMouseTooltip"
+            [ngStyle]="{'top': mousePosition.y + 'px', 'left': mousePosition.x + 'px',}">Double click here to create a new Event</button>
   </div>
 </div>
+
 

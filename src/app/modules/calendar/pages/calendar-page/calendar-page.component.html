@@ -1,6 +1,6 @@
 <div class="flex flex-row w-full justify-center">
   <button mat-icon-button color="primary" (click)="changeMonth(-1)">-</button>
-  <mat-label class="p-10 m-0">{{chosenDate.getMonth() + 1}}</mat-label>
+  <mat-label class="p-10 m-0">{{chosenDate.getMonth() | monthName}}  {{chosenDate.getFullYear()}}</mat-label>
   <button mat-icon-button color="primary" (click)="changeMonth(+1)">+</button>
 </div>
 <li *ngFor="let day of days">{{day}}</li>
@@ -8,7 +8,11 @@
     [class.not-current-month]="chosenDate.getMonth() !== dayDate.getMonth()"
     *ngFor="let dayDate of dates"
     [routerLink]="['/calendar/', dayDate.getFullYear() + '-' + dayDate.getMonth() + '-' + dayDate.getDate()]">
-  <span [class.today]="currentDate.getMonth() === dayDate.getMonth() && currentDate.getDate() === dayDate.getDate()">{{dayDate.getDate()}}</span>
+  <span class="flex flex-col items-center" [class.today]="currentDate.getMonth() === dayDate.getMonth() && currentDate.getDate() === dayDate.getDate()">
+    {{dayDate.getDate()}}
+    <p class="m-0 indicator" [hidden]="getSchedulesByDate(dayDate).length === 0">{{getSchedulesByDate(dayDate).length}} events</p>
+
+  </span>
 </li>
 
 

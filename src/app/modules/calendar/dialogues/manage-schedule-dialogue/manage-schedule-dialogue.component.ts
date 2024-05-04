@@ -12,6 +12,7 @@ import {ScheduleService} from "../../../../_services/schedule.service";
 export class ManageScheduleDialogueComponent {
 
   scheduleService = inject(ScheduleService)
+  scheduleForEdit!: ScheduleModel
   date: Date
 
   form = this.formBuilder.group({
@@ -25,16 +26,17 @@ export class ManageScheduleDialogueComponent {
               private formBuilder: UntypedFormBuilder,
               @Inject(MAT_DIALOG_DATA) public data: { date: Date, scheduleForEdit: ScheduleModel }) {
     this.date = new Date(data.date)
+    this.scheduleForEdit = data.scheduleForEdit
 
     // Populate the form if data contains schedule data
-    if (data.scheduleForEdit) {
-      let timeStart = ((data.scheduleForEdit.dateStart.getHours()).toString().length < 2 ? '0' + data.scheduleForEdit.dateStart.getHours() : data.scheduleForEdit.dateStart.getHours()) + ':' +
-        ((data.scheduleForEdit.dateStart.getMinutes()).toString().length < 2 ? '0' + data.scheduleForEdit.dateStart.getMinutes() : data.scheduleForEdit.dateStart.getMinutes())
-      let timeEnd = ((data.scheduleForEdit.dateEnd.getHours()).toString().length < 2 ? '0' + data.scheduleForEdit.dateEnd.getHours() : data.scheduleForEdit.dateEnd.getHours()) + ':' +
-        ((data.scheduleForEdit.dateEnd.getMinutes()).toString().length < 2 ? '0' + data.scheduleForEdit.dateEnd.getMinutes() : data.scheduleForEdit.dateEnd.getMinutes())
+    if (this.scheduleForEdit) {
+      let timeStart = ((this.scheduleForEdit.dateStart.getHours()).toString().length < 2 ? '0' + this.scheduleForEdit.dateStart.getHours() : this.scheduleForEdit.dateStart.getHours()) + ':' +
+        ((this.scheduleForEdit.dateStart.getMinutes()).toString().length < 2 ? '0' + this.scheduleForEdit.dateStart.getMinutes() : this.scheduleForEdit.dateStart.getMinutes())
+      let timeEnd = ((this.scheduleForEdit.dateEnd.getHours()).toString().length < 2 ? '0' + this.scheduleForEdit.dateEnd.getHours() : this.scheduleForEdit.dateEnd.getHours()) + ':' +
+        ((this.scheduleForEdit.dateEnd.getMinutes()).toString().length < 2 ? '0' + this.scheduleForEdit.dateEnd.getMinutes() : this.scheduleForEdit.dateEnd.getMinutes())
 
       this.form.patchValue({
-        title: data.scheduleForEdit.title,
+        title: this.scheduleForEdit.title,
         dateStart: timeStart,
         dateEnd: timeEnd,
       })
@@ -42,6 +44,11 @@ export class ManageScheduleDialogueComponent {
   }
 
   close() {
+    this.dialogueRef.close()
+  }
+
+  deleteSchedule() {
+    this.scheduleService.deleteEvent(this.scheduleForEdit.id)
     this.dialogueRef.close()
   }
 
@@ -55,11 +62,12 @@ export class ManageScheduleDialogueComponent {
     dateEnd.setHours(endHour)
     dateEnd.setMinutes(endMinute)
     let schedule = new ScheduleModel(this.form.value.title, dateStart, dateEnd)
-    if (this.data.scheduleForEdit === undefined) {
+    if (this.scheduleForEdit === undefined) {
       this.scheduleService.addNewEvent(schedule)
     } else {
-      schedule.setId(this.data.scheduleForEdit.id)
+      schedule.setId(this.scheduleForEdit.id)
       this.scheduleService.updateEvent(schedule)
     }
+    this.dialogueRef.close()
   }
 }

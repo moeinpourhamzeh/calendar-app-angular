@@ -15,6 +15,8 @@ import {CdkDrag, CdkDropList} from "@angular/cdk/drag-drop";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatInput} from "@angular/material/input";
 import {ManageScheduleDialogueComponent} from "./dialogues/manage-schedule-dialogue/manage-schedule-dialogue.component";
+import {MatTooltip} from "@angular/material/tooltip";
+import {MonthNamePipe} from "../../_pipes/month-name.pipe";
 
 
 @NgModule({
@@ -44,6 +46,8 @@ import {ManageScheduleDialogueComponent} from "./dialogues/manage-schedule-dialo
     MatInput,
     ReactiveFormsModule,
     MatFormField,
+    MatTooltip,
+    MonthNamePipe,
   ]
 })
 export class CalendarModule { }

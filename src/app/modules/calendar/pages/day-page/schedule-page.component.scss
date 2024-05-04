@@ -18,7 +18,7 @@
       transparent 52%
     ),
     linear-gradient(90deg,
-      gray 70%,
+      white 70%,
       transparent 70%
     ),
     linear-gradient(0deg,
@@ -72,6 +72,18 @@
   font-size:0;
   margin:0;
   padding:0;
+  .mouse-tooltip {
+    border: none;
+    background-color: darkgrey;
+    color: white;
+    border-radius: 10px;
+    z-index: 500;
+    position: fixed
+  }
+  &:hover {
+    background-color: whitesmoke;
+    cursor: pointer;
+  }
 }
 
 .card {
@@ -79,6 +91,7 @@
   resize: vertical;
   position: absolute;
   filter: opacity(0.8);
+  border-radius: 0;
 }
 
 .hour-text {
@@ -98,4 +111,9 @@
   background: black;
   border-radius: 10px;
   cursor: ns-resize;
+}
+
+.header {
+  padding: 5px 0;
+  border-bottom: solid 1px gray;
 }

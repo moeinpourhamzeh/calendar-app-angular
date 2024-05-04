@@ -6,6 +6,7 @@ import {
   ManageScheduleDialogueComponent
 } from "../../dialogues/manage-schedule-dialogue/manage-schedule-dialogue.component";
 import {MatDialog} from "@angular/material/dialog";
+import {getRange} from "../../../../_untils/array-builder";
 
 
 @Component({
@@ -14,8 +15,17 @@ import {MatDialog} from "@angular/material/dialog";
   styleUrl: './schedule-page.component.scss'
 })
 export class SchedulePageComponent implements OnInit {
+  protected readonly getRange = getRange;
+
+  // Can open manage schedule event dialogue or not
+  // It is relied on whether we want to move the card or not
+  canOpenManageDialogue = true
+
   date: Date = new Date
   dragDisabled: boolean = false
+
+  hideMouseTooltip = true
+  mousePosition = {x: 0, y: 0}
 
   scheduleService = inject(ScheduleService)
   selectedList = this.scheduleService.selectedList
@@ -35,30 +45,40 @@ export class SchedulePageComponent implements OnInit {
   }
 
   manageSchedule(schedule?: ScheduleModel) {
-    const d = this.dialog.open(ManageScheduleDialogueComponent, {
-      data: {
-        date: this.date,
-        scheduleForEdit: schedule
-      },
-    })
-  }
-
-  deleteSchedule(scheduleId: number) {
-    this.scheduleService.deleteEvent(scheduleId)
+    if (this.canOpenManageDialogue) {
+      const d = this.dialog.open(ManageScheduleDialogueComponent, {
+        data: {
+          date: this.date,
+          scheduleForEdit: schedule
+        },
+      })
+    }
   }
 
   onDragDropped(scheduleModel: ScheduleModel) {
     const item = document.getElementById( scheduleModel.id.toString())
-    scheduleModel.updateTimeBasedOnCoordinates(item!.getBoundingClientRect().top - 84)
+    scheduleModel.updateTimeBasedOnCoordinates(item!.getBoundingClientRect().top - 95)
     this.scheduleService.updateEvent(scheduleModel)
+    setTimeout(() => {
+      this.canOpenManageDialogue = true
+    }, 1000)
   }
 
   mouseUp(mouseEvent: MouseEvent) {
     this.dragDisabled = false
   }
 
-  // create an array
-  getRange(start = 0, end = 0, length = end - start) {
-    return Array.from({length}, (_, i) => i + start)
+  showTooltip(mouseEvent: MouseEvent) {
+    this.mousePosition.x = mouseEvent.pageX + 10
+    this.mousePosition.y = mouseEvent.pageY + 10
   }
+
+  // Create a preset event on double-click on the parent
+  doubleClickCreateDefaultEvent(event: MouseEvent) {
+    let endDate = new Date(this.date.getFullYear(), this.date.getMonth(), this.date.getDate(), this.date.getHours() + 1, this.date.getMinutes(), 0)
+    const newSchedule: ScheduleModel = new ScheduleModel('new Event', this.date, endDate)
+    newSchedule.updateTimeBasedOnCoordinates(event.offsetY)
+    this.scheduleService.addNewEvent(newSchedule)
+  }
+
 }

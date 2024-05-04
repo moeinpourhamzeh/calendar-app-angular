@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
-import {DAY_MS} from "../../../../shared/const/days-ms.const";
+import {Component, inject} from '@angular/core';
+import {DAY_MS} from "../../../../_const/days-ms.const";
+import {getRange} from "../../../../_untils/array-builder";
+import {ScheduleService} from "../../../../_services/schedule.service";
+import {twoDatesEqual} from "../../../../_untils/datesMatch";
 
 @Component({
   selector: 'app-calendar-page',
@@ -7,7 +10,11 @@ import {DAY_MS} from "../../../../shared/const/days-ms.const";
   styleUrl: './calendar-page.component.scss'
 })
 export class CalendarPageComponent {
-  days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+
+  scheduleService = inject(ScheduleService)
+  scheduledEventsList = this.scheduleService.scheduledEventsList
+
+  days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   dates: Array<Date> = []
   currentDate: Date
   chosenDate: Date
@@ -27,22 +34,25 @@ export class CalendarPageComponent {
   // Create 42 days of a page
   getDates(date: Date) {
     const startingDate = this.getStartDay(date)?.getTime()
-
-    return this.getRange(1, 42).map(x => new Date(startingDate! + (x * DAY_MS)))
+    return getRange(0, 41).map(x => new Date(startingDate! + (x * DAY_MS)))
   }
 
   // Get the first day of the calendar which is the Monday
   getStartDay(date: Date) {
     const [year, month] = [date.getFullYear(), date.getMonth()]
     const firstDayOfMonth = new Date(year, month, 1).getTime()
+    console.log(date)
+    console.log(year)
+    console.log(month)
+    console.log(new Date(year, month, 1))
 
-    return this.getRange(1, 7)
+    return getRange(0, 7)
       .map(x => new Date(firstDayOfMonth - (x * DAY_MS)))
       .find(x => x.getDay() === 0)
   }
 
-  // Create an array with a range of numbers
-  getRange(start = 0, end = 0, length = end - start) {
-    return Array.from({length}, (_, i) => i + start)
+  // find schedules in list by date
+  getSchedulesByDate(date: Date) {
+    return this.scheduledEventsList().filter(x => twoDatesEqual(x.dateStart, date))
   }
 }
