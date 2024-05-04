@@ -10,14 +10,19 @@ li {
 .day-cell {
   min-height: 100px;
   cursor: pointer;
+  border-radius: 5px;
+  transition: all .4s;
   &:hover {
-    background-color: gray;
-    color: white;
+    background-color: lightcyan;
+    color: black;
+    transition: all .4s;
   }
 }
 
 .today {
-  color: green;
+  //background-color: darkcyan;
+  //color: white;
+  border: solid 1px darkcyan;
 }
 
 .not-current-month {

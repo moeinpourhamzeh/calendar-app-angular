@@ -1,6 +1,6 @@
 <div class="flex flex-row items-center justify-start w-full header">
   <p class="m-0 ml-10">Selected Date: {{date | date}}</p>
-  <button mat-raised-button
+  <button mat-button
           color="accent"
           class="ml-10"
           (click)="manageSchedule()">
@@ -20,7 +20,7 @@
        (mousemove)="showTooltip($event)"
        (dblclick)="doubleClickCreateDefaultEvent($event)"
        class="hour-container grow flex flex-col items-end boundary relative">
-    <button mat-raised-button
+    <button mat-flat-button
             color="primary"
             id="{{schedule.id}}"
             *ngFor="let schedule of selectedList()"

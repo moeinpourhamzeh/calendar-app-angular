@@ -44,6 +44,8 @@ export class SchedulePageComponent implements OnInit {
     this.scheduleService.getEventsListOnDate(this.date)
   }
 
+  // Open dialogue for editing Schedule
+  // We can EDIT and DELETE the schedule in this dialogue
   manageSchedule(schedule?: ScheduleModel) {
     if (this.canOpenManageDialogue) {
       const d = this.dialog.open(ManageScheduleDialogueComponent, {
@@ -55,10 +57,13 @@ export class SchedulePageComponent implements OnInit {
     }
   }
 
+  // Dropping the itome and saving it in new coordination
   onDragDropped(scheduleModel: ScheduleModel) {
     const item = document.getElementById( scheduleModel.id.toString())
     scheduleModel.updateTimeBasedOnCoordinates(item!.getBoundingClientRect().top - 95)
     this.scheduleService.updateEvent(scheduleModel)
+
+    // Give it some delay so that the dialogue does not appear on dragging and dropping the item
     setTimeout(() => {
       this.canOpenManageDialogue = true
     }, 1000)
@@ -68,9 +73,10 @@ export class SchedulePageComponent implements OnInit {
     this.dragDisabled = false
   }
 
+  // Set the tooltip for mouse movement while it hovers over our container
   showTooltip(mouseEvent: MouseEvent) {
-    this.mousePosition.x = mouseEvent.pageX + 10
-    this.mousePosition.y = mouseEvent.pageY + 10
+    this.mousePosition.x = mouseEvent.x + 10
+    this.mousePosition.y = mouseEvent.y + 10
   }
 
   // Create a preset event on double-click on the parent
