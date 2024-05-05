@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SchedulePageComponent } from './schedule-page.component';
+import { DayPageComponent } from './day-page.component';
 
 describe('DayPageComponent', () => {
-  let component: SchedulePageComponent;
-  let fixture: ComponentFixture<SchedulePageComponent>;
+  let component: DayPageComponent;
+  let fixture: ComponentFixture<DayPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SchedulePageComponent]
+      imports: [DayPageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SchedulePageComponent);
+    fixture = TestBed.createComponent(DayPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

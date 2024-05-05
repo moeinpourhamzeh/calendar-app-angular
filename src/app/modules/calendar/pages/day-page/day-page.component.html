@@ -1,5 +1,5 @@
 <div class="flex flex-row items-center justify-start w-full header">
-  <p class="m-0 ml-10">Selected Date: {{date | date}}</p>
+  <p class="m-0 ml-10">{{date | date}}</p>
   <button mat-button
           color="accent"
           class="ml-10"
@@ -31,7 +31,7 @@
             (mouseleave)="hideMouseTooltip = false"
             [cdkDragDisabled]="dragDisabled"
             (cdkDragStarted)="canOpenManageDialogue=false"
-            (cdkDragReleased)="onDragDropped(schedule)"
+            (cdkDragMoved)="onDragMoved(schedule)"
             [cdkDragFreeDragPosition]="schedule.dragPosition"
             (click)="manageSchedule(schedule)"
             [ngStyle]="{'height': schedule.height + 'px'}"

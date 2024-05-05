@@ -126,6 +126,9 @@
   z-index: 0;
   .time-indicator {
     border: none;
+    background-color: red;
+    color: white;
+    padding-right: 10px;
   }
   .hour-line {
     width: calc(100%);

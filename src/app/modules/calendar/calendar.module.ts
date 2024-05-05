@@ -6,8 +6,8 @@ import {CalendarLandingComponent} from "./calendar-landing.component";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {HeaderComponent} from "../../shared/components/header/header.component";
-import {CalendarPageComponent} from "./pages/calendar-page/calendar-page.component";
-import {SchedulePageComponent} from "./pages/schedule-page/schedule-page.component";
+import {MonthPageComponent} from "./pages/month-page/month-page.component";
+import {DayPageComponent} from "./pages/day-page/day-page.component";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatCard} from "@angular/material/card";
 import {MatRipple} from "@angular/material/core";
@@ -24,8 +24,8 @@ import {MonthNamePipe} from "../../_pipes/month-name.pipe";
     CalendarLandingComponent,
 
     // Pages
-    CalendarPageComponent,
-    SchedulePageComponent,
+    MonthPageComponent,
+    DayPageComponent,
 
     // Dialogue
     ManageScheduleDialogueComponent

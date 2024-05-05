@@ -11,13 +11,15 @@ import {twoDatesEqual} from "../../../../_untils/datesMatch";
 
 
 @Component({
-  selector: 'app-schedule-page',
-  templateUrl: './schedule-page.component.html',
-  styleUrl: './schedule-page.component.scss'
+  selector: 'app-day-page',
+  templateUrl: './day-page.component.html',
+  styleUrl: './day-page.component.scss'
 })
-export class SchedulePageComponent implements OnInit {
+export class DayPageComponent {
   protected readonly getRange = getRange;
+  protected readonly twoDatesEqual = twoDatesEqual;
 
+  // Scrolling value is saved into it to calculate the drag and drop time point
   scrollFromTop = 0
 
   // Current hour
@@ -52,10 +54,9 @@ export class SchedulePageComponent implements OnInit {
     setInterval(() => {
       this.currentHourDate = new Date();
     }, 1000);
-  }
 
-  ngOnInit() {
     this.scheduleService.getEventsListOnDate(this.date)
+
   }
 
   // Open dialogue for editing Schedule
@@ -72,7 +73,7 @@ export class SchedulePageComponent implements OnInit {
   }
 
   // Dropping the itome and saving it in new coordination
-  onDragDropped(scheduleModel: ScheduleModel) {
+  onDragMoved(scheduleModel: ScheduleModel) {
     const item = document.getElementById( scheduleModel.id.toString())
     scheduleModel.updateTimeBasedOnCoordinates(item!.getBoundingClientRect().top + this.scrollFromTop - 95)
     this.scheduleService.updateEvent(scheduleModel)
@@ -102,8 +103,7 @@ export class SchedulePageComponent implements OnInit {
     const minute = date.getMinutes()
     const second = date.getSeconds()
 
-    return (hour * 39) + ((minute / 60) * 40) + (((second / 60) / 60) * 40)
+    return (hour * 39.15) + ((minute / 60) * 40) + (((second / 60) / 60) * 40)
   }
 
-  protected readonly twoDatesEqual = twoDatesEqual;
 }

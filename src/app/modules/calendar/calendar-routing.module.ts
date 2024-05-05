@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {CalendarLandingComponent} from "./calendar-landing.component";
-import {CalendarPageComponent} from "./pages/calendar-page/calendar-page.component";
-import {SchedulePageComponent} from "./pages/schedule-page/schedule-page.component";
+import {MonthPageComponent} from "./pages/month-page/month-page.component";
+import {DayPageComponent} from "./pages/day-page/day-page.component";
 
 const routes: Routes = [
   {
     path: '', component: CalendarLandingComponent, children:
       [
         {path: '', redirectTo: 'calendar', pathMatch: 'full'},
-        {path: 'calendar', component: CalendarPageComponent},
-        {path: 'calendar/:id', component: SchedulePageComponent}
+        {path: 'calendar', component: MonthPageComponent},
+        {path: 'calendar/:id', component: DayPageComponent}
       ]
   }
 ];

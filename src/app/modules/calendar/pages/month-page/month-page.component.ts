@@ -5,11 +5,11 @@ import {ScheduleService} from "../../../../_services/schedule.service";
 import {twoDatesEqual} from "../../../../_untils/datesMatch";
 
 @Component({
-  selector: 'app-calendar-page',
-  templateUrl: './calendar-page.component.html',
-  styleUrl: './calendar-page.component.scss'
+  selector: 'app-month-page',
+  templateUrl: './month-page.component.html',
+  styleUrl: './month-page.component.scss'
 })
-export class CalendarPageComponent {
+export class MonthPageComponent {
 
   days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   dates: Array<Date> = []
