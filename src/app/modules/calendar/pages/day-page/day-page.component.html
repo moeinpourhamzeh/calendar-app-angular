@@ -35,10 +35,12 @@
             [cdkDragFreeDragPosition]="schedule.dragPosition"
             (click)="manageSchedule(schedule)"
             [ngStyle]="{'height': schedule.height + 'px'}"
-            class="card flex flex-row justify-start items-center">
-      <span>{{schedule.title}}</span>
-      <span class=""> event starts at {{schedule.dateStart.getHours() | number:'2.0-0'}} : {{schedule.dateStart.getMinutes() | number:'2.0-0'}}</span>
-      <span class=""> and ends at {{schedule.dateEnd.getHours() | number:'2.0-0'}} : {{schedule.dateEnd.getMinutes() | number:'2.0-0'}}</span>
+            class="card flex flex-col items-start">
+      <span class="flex flex-row">
+        <span>{{schedule.title}}</span>
+        <span class=""> event starts at {{schedule.dateStart.getHours() | number:'2.0-0'}} : {{schedule.dateStart.getMinutes() | number:'2.0-0'}}</span>
+        <span class=""> and ends at {{schedule.dateEnd.getHours() | number:'2.0-0'}} : {{schedule.dateEnd.getMinutes() | number:'2.0-0'}}</span>
+      </span>
     </button>
 
     <button disabled

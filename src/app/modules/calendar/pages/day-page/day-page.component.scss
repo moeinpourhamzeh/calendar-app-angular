@@ -93,6 +93,7 @@
   filter: opacity(0.8);
   border-radius: 0;
   z-index: 10;
+  font-size: 10px;
 }
 
 .hour-text {
@@ -101,17 +102,6 @@
   background-color: white;
   border: none;
   border-bottom: solid 1px gray
-}
-
-.resize-line {
-  position: absolute;
-  right: 0;
-  bottom: -1px;
-  width: 100%;
-  height: 2px;
-  background: black;
-  border-radius: 10px;
-  cursor: ns-resize;
 }
 
 .header {
@@ -136,6 +126,4 @@
     background-color: red;
   }
 }
-
-
 

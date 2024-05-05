@@ -105,5 +105,4 @@ export class DayPageComponent {
 
     return (hour * 39.15) + ((minute / 60) * 40) + (((second / 60) / 60) * 40)
   }
-
 }
