@@ -14,8 +14,7 @@
             *ngFor="let h of getRange(0, 24)">{{h}}</button>
   </div>
 
-  <div (mouseup)="mouseUp($event)"
-       (mouseenter)="hideMouseTooltip = false"
+  <div (mouseenter)="hideMouseTooltip = false"
        (mouseleave)="hideMouseTooltip = true"
        (mousemove)="showTooltip($event)"
        (dblclick)="doubleClickCreateDefaultEvent($event)"
@@ -23,7 +22,7 @@
     <button mat-flat-button
             color="primary"
             id="{{schedule.id}}"
-            *ngFor="let schedule of selectedList()"
+            *ngFor="let schedule of (scheduleService.selectedSchedulesList$ | async) "
             matTooltip="click to edit"
             cdkDragBoundary=".boundary"
             cdkDragLockAxis="y"
@@ -46,6 +45,12 @@
             class="mouse-tooltip"
             *ngIf="!hideMouseTooltip"
             [ngStyle]="{'top': mousePosition.y + 'px', 'left': mousePosition.x + 'px',}">Double click here to create a new Event</button>
+    
+    <!--  Hour Line  -->
+    <div class="hour-line-container flex flex-col items-end" [ngStyle]="{'top': updateHourLocation(currentHourDate) + 'px'}">
+      <button class="time-indicator">{{currentHourDate | date : "hh:mm:ss" }}</button>
+      <div class="hour-line"></div>
+    </div>
   </div>
 </div>
 

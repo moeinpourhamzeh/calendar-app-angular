@@ -45,6 +45,7 @@ export class ScheduleModel {
     this.dragPosition.y = y
     let hourStart = Math.floor(y / 40)
 
+    console.log(hourStart)
     let minuteStart = Math.floor(y - (hourStart * 40)) * 60 / 40
 
     this.dateStart.setHours(hourStart, minuteStart)

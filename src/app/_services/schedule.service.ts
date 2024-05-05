@@ -1,26 +1,21 @@
-import {computed, Injectable, signal} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ScheduleModel} from "../_models/schedule.model";
 import {twoDatesEqual} from "../_untils/datesMatch";
+import {BehaviorSubject, Observable} from "rxjs";
 
-export interface IScheduleState {
-  scheduledEventsList: ScheduleModel[]
-  selectedList: ScheduleModel[]
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class ScheduleService {
 
-  // state
-  state = signal<IScheduleState>({
-    scheduledEventsList: [],
-    selectedList: []
-  })
+  private allSchedulesList: ScheduleModel[] = []
+  private allSchedulesListSubject = new BehaviorSubject<ScheduleModel[]>(this.allSchedulesList)
+  private selectedSchedulesList: ScheduleModel[] = []
+  private selectedSchedulesListSubject = new BehaviorSubject<ScheduleModel[]>(this.selectedSchedulesList)
 
-  // selectors
-  scheduledEventsList = computed(() => this.state().scheduledEventsList)
-  selectedList = computed(() => this.state().selectedList)
+  public allSchedulesList$: Observable<ScheduleModel[]> = this.allSchedulesListSubject.asObservable()
+  public selectedSchedulesList$: Observable<ScheduleModel[]> = this.selectedSchedulesListSubject.asObservable()
 
   constructor() { }
 
@@ -28,54 +23,41 @@ export class ScheduleService {
   // CRUD functions
   addNewEvent(scheduledEventsList: ScheduleModel) {
 
-    const allSchedules = computed(() => this.state().scheduledEventsList)()
-    const list = computed(() => this.state().scheduledEventsList)()
+    this.allSchedulesList.push(scheduledEventsList)
+    this.selectedSchedulesList = this.allSchedulesList
       .filter(x => twoDatesEqual(x.dateStart, scheduledEventsList.dateStart))
-    list.push(scheduledEventsList)
-    allSchedules.push(scheduledEventsList)
 
-    this.state.update((state) => ({
-      ...state,
-      scheduledEventsList: allSchedules,
-      selectedList: list,
-    }))
+    this.allSchedulesListSubject.next(this.selectedSchedulesList)
+    this.selectedSchedulesListSubject.next(this.selectedSchedulesList)
   }
 
   updateEvent(scheduledEventsList: ScheduleModel) {
 
-    const allSchedules = computed(() => this.state().scheduledEventsList)()
-    const list = computed(() => this.state().scheduledEventsList)()
+    this.selectedSchedulesList = this.allSchedulesList
       .filter(x => twoDatesEqual(x.dateStart, scheduledEventsList.dateStart))
-    const updatedListAll = allSchedules.filter(x => x.id !== scheduledEventsList.id)
-    const updatedList = list.filter(x => x.id !== scheduledEventsList.id)
-    updatedList.push(scheduledEventsList)
-    updatedListAll.push(scheduledEventsList)
-    this.state.update((state) => ({
-      ...state,
-      scheduledEventsList: updatedListAll,
-      selectedList: updatedList
-    }))
+
+    this.allSchedulesList.splice(this.allSchedulesList.findIndex(x => x.id !== scheduledEventsList.id), 1)
+    this.selectedSchedulesList.splice(this.selectedSchedulesList.findIndex(x => x.id !== scheduledEventsList.id, 1))
+    this.allSchedulesList.push(scheduledEventsList)
+    this.selectedSchedulesList.push(scheduledEventsList)
+
+    this.allSchedulesListSubject.next(this.selectedSchedulesList)
+    this.selectedSchedulesListSubject.next(this.selectedSchedulesList)
   }
 
   deleteEvent(id: number) {
+    this.allSchedulesList.splice(this.allSchedulesList.findIndex(x => x.id !== id), 1)
+    this.selectedSchedulesList.splice(this.selectedSchedulesList.findIndex(x => x.id !== id, 1))
 
-    const list = computed(() => this.state().scheduledEventsList)()
-    const updatedList = list.filter(x => x.id !== id)
-
-    this.state.update((state) => ({
-      ...state,
-      scheduledEventsList: updatedList,
-      selectedList: updatedList
-    }))
+    this.allSchedulesListSubject.next(this.selectedSchedulesList)
+    this.selectedSchedulesListSubject.next(this.selectedSchedulesList)
   }
 
-  getEventsListOnDate(date: Date) {
-    const list = computed(() => this.state().scheduledEventsList)()
-    const updatedList = list.filter(x => twoDatesEqual(x.dateStart, date))
+  getEventsListOnDate(date: Date): ScheduleModel[] {
 
-    this.state.update((state) => ({
-      ...state,
-      selectedList: updatedList
-    }))
+    this.selectedSchedulesList = this.allSchedulesList.filter(x => twoDatesEqual(x.dateStart, date))
+    this.selectedSchedulesListSubject.next(this.selectedSchedulesList)
+    return this.selectedSchedulesList
+
   }
 }

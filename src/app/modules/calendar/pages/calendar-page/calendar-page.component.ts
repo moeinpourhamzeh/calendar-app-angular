@@ -11,15 +11,12 @@ import {twoDatesEqual} from "../../../../_untils/datesMatch";
 })
 export class CalendarPageComponent {
 
-  scheduleService = inject(ScheduleService)
-  scheduledEventsList = this.scheduleService.scheduledEventsList
-
   days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
   dates: Array<Date> = []
   currentDate: Date
   chosenDate: Date
 
-  constructor() {
+  constructor(private scheduleService: ScheduleService) {
     this.currentDate = new Date()
     this.chosenDate = new Date()
     this.dates = this.getDates(this.chosenDate)
@@ -41,10 +38,6 @@ export class CalendarPageComponent {
   getStartDay(date: Date) {
     const [year, month] = [date.getFullYear(), date.getMonth()]
     const firstDayOfMonth = new Date(year, month, 1).getTime()
-    console.log(date)
-    console.log(year)
-    console.log(month)
-    console.log(new Date(year, month, 1))
 
     return getRange(0, 7)
       .map(x => new Date(firstDayOfMonth - (x * DAY_MS)))
@@ -53,6 +46,6 @@ export class CalendarPageComponent {
 
   // find schedules in list by date
   getSchedulesByDate(date: Date) {
-    return this.scheduledEventsList().filter(x => twoDatesEqual(x.dateStart, date))
+    return this.scheduleService.getEventsListOnDate(date)
   }
 }

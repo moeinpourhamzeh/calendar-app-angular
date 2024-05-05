@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ScheduleModel} from "../../../../_models/schedule.model";
 import {ScheduleService} from "../../../../_services/schedule.service";
@@ -17,6 +17,11 @@ import {getRange} from "../../../../_untils/array-builder";
 export class SchedulePageComponent implements OnInit {
   protected readonly getRange = getRange;
 
+  scrollFromTop = 0
+
+  // Current hour
+  currentHourDate: Date = new Date()
+
   // Can open manage schedule event dialogue or not
   // It is relied on whether we want to move the card or not
   canOpenManageDialogue = true
@@ -27,17 +32,25 @@ export class SchedulePageComponent implements OnInit {
   hideMouseTooltip = true
   mousePosition = {x: 0, y: 0}
 
-  scheduleService = inject(ScheduleService)
-  selectedList = this.scheduleService.selectedList
+
+  @HostListener("window:scroll", ["$event"])
+  onWindowScroll() {
+    this.scrollFromTop  = document.documentElement.scrollTop
+  }
 
   constructor(private route: ActivatedRoute,
-              public dialog: MatDialog) {
+              private dialog: MatDialog,
+              public scheduleService: ScheduleService) {
     this.route.params.subscribe(params => {
       const year = params['id'].split('-')[0]
       const month = params['id'].split('-')[1]
       const day = params['id'].split('-')[2]
       this.date = new Date(year, month, day)
     });
+
+    setInterval(() => {
+      this.currentHourDate = new Date();
+    }, 1000);
   }
 
   ngOnInit() {
@@ -60,17 +73,13 @@ export class SchedulePageComponent implements OnInit {
   // Dropping the itome and saving it in new coordination
   onDragDropped(scheduleModel: ScheduleModel) {
     const item = document.getElementById( scheduleModel.id.toString())
-    scheduleModel.updateTimeBasedOnCoordinates(item!.getBoundingClientRect().top - 95)
+    scheduleModel.updateTimeBasedOnCoordinates(item!.getBoundingClientRect().top + this.scrollFromTop - 95)
     this.scheduleService.updateEvent(scheduleModel)
 
     // Give it some delay so that the dialogue does not appear on dragging and dropping the item
     setTimeout(() => {
       this.canOpenManageDialogue = true
     }, 1000)
-  }
-
-  mouseUp(mouseEvent: MouseEvent) {
-    this.dragDisabled = false
   }
 
   // Set the tooltip for mouse movement while it hovers over our container
@@ -87,4 +96,11 @@ export class SchedulePageComponent implements OnInit {
     this.scheduleService.addNewEvent(newSchedule)
   }
 
+  updateHourLocation(date: Date) {
+    const hour = date.getHours()
+    const minute = date.getMinutes()
+    const second = date.getSeconds()
+
+    return (hour * 39) + ((minute / 60) * 39)
+  }
 }

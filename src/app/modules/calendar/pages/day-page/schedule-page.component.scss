@@ -92,6 +92,7 @@
   position: absolute;
   filter: opacity(0.8);
   border-radius: 0;
+  z-index: 10;
 }
 
 .hour-text {
@@ -117,3 +118,21 @@
   padding: 5px 0;
   border-bottom: solid 1px gray;
 }
+
+.hour-line-container {
+  width: calc(100% - 50px);
+  position: absolute;
+  right: 0;
+  z-index: 0;
+  .time-indicator {
+    border: none;
+  }
+  .hour-line {
+    width: calc(100%);
+    height: 2px;
+    background-color: red;
+  }
+}
+
+
+
