@@ -47,7 +47,9 @@
             [ngStyle]="{'top': mousePosition.y + 'px', 'left': mousePosition.x + 'px',}">Double click here to create a new Event</button>
     
     <!--  Hour Line  -->
-    <div class="hour-line-container flex flex-col items-end" [ngStyle]="{'top': updateHourLocation(currentHourDate) + 'px'}">
+    <div class="hour-line-container flex flex-col items-end"
+         *ngIf="twoDatesEqual(date, currentHourDate)"
+         [ngStyle]="{'top': updateHourLocation(currentHourDate) + 'px'}">
       <button class="time-indicator">{{currentHourDate | date : "hh:mm:ss" }}</button>
       <div class="hour-line"></div>
     </div>

@@ -7,7 +7,7 @@ import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {HeaderComponent} from "../../shared/components/header/header.component";
 import {CalendarPageComponent} from "./pages/calendar-page/calendar-page.component";
-import {SchedulePageComponent} from "./pages/day-page/schedule-page.component";
+import {SchedulePageComponent} from "./pages/schedule-page/schedule-page.component";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatCard} from "@angular/material/card";
 import {MatRipple} from "@angular/material/core";

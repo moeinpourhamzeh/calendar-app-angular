@@ -7,6 +7,7 @@ import {
 } from "../../dialogues/manage-schedule-dialogue/manage-schedule-dialogue.component";
 import {MatDialog} from "@angular/material/dialog";
 import {getRange} from "../../../../_untils/array-builder";
+import {twoDatesEqual} from "../../../../_untils/datesMatch";
 
 
 @Component({
@@ -101,6 +102,8 @@ export class SchedulePageComponent implements OnInit {
     const minute = date.getMinutes()
     const second = date.getSeconds()
 
-    return (hour * 39) + ((minute / 60) * 39)
+    return (hour * 39) + ((minute / 60) * 40) + (((second / 60) / 60) * 40)
   }
+
+  protected readonly twoDatesEqual = twoDatesEqual;
 }
