@@ -46,8 +46,8 @@ export class ScheduleService {
   }
 
   deleteEvent(id: number) {
-    this.allSchedulesList.splice(this.allSchedulesList.findIndex(x => x.id !== id), 1)
-    this.selectedSchedulesList.splice(this.selectedSchedulesList.findIndex(x => x.id !== id, 1))
+    this.allSchedulesList.splice(this.allSchedulesList.findIndex(x => x.id === id), 1)
+    this.selectedSchedulesList.splice(this.selectedSchedulesList.findIndex(x => x.id === id, 1))
 
     this.allSchedulesListSubject.next(this.selectedSchedulesList)
     this.selectedSchedulesListSubject.next(this.selectedSchedulesList)
