@@ -38,7 +38,7 @@
             class="card flex flex-col items-start">
       <span class="flex flex-row">
         <span>{{schedule.title}}</span>
-        <span class=""> event starts at {{schedule.dateStart.getHours() | number:'2.0-0'}} : {{schedule.dateStart.getMinutes() | number:'2.0-0'}}</span>
+        <span class="ml-10"> | event starts at {{schedule.dateStart.getHours() | number:'2.0-0'}} : {{schedule.dateStart.getMinutes() | number:'2.0-0'}}</span>
         <span class=""> and ends at {{schedule.dateEnd.getHours() | number:'2.0-0'}} : {{schedule.dateEnd.getMinutes() | number:'2.0-0'}}</span>
       </span>
     </button>
@@ -59,3 +59,15 @@
 </div>
 
 
+<!--<div class="layout-column align-items-center mt-50">-->
+
+<!--  <section class="layout-row align-items-center justify-content-between">-->
+<!--    <label>Celsius: </label>-->
+<!--    <input type="number" class="large" data-test-id="celsius-input" (ngModelChange)="cellToFar($event)" [ngModel]="cell" />-->
+<!--  </section>-->
+
+<!--  <section class="layout-row align-items-center justify-content-between">-->
+<!--    <label>Fahrenheit: </label>-->
+<!--    <input type="number" class="large" data-test-id="fahrenheit-input" (ngModelChange)="farToCell($event)" [ngModel]="far"/>-->
+<!--  </section>-->
+<!--</div>-->

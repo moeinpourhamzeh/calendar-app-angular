@@ -17,8 +17,8 @@ export class ManageScheduleDialogueComponent {
 
   form = this.formBuilder.group({
     title: ['', [Validators.required]],
-    dateStart: [new Date(), [Validators.required]],
-    dateEnd: [new Date, [Validators.required]],
+    dateStart: ['00:00', [Validators.required]],
+    dateEnd: ['01:00', [Validators.required]],
   });
 
 
@@ -53,6 +53,7 @@ export class ManageScheduleDialogueComponent {
   }
 
   submit() {
+    console.log(this.form.value.dateStart)
     let [startHour, startMinute] = this.form.value.dateStart.split(':')
     let [endHour, endMinute] = this.form.value.dateEnd.split(':')
     let dateStart = new Date(this.date)
@@ -62,7 +63,8 @@ export class ManageScheduleDialogueComponent {
     dateEnd.setHours(endHour)
     dateEnd.setMinutes(endMinute)
     let schedule = new ScheduleModel(this.form.value.title, dateStart, dateEnd)
-    if (this.scheduleForEdit === undefined) {
+    console.log(schedule)
+    if (this.scheduleForEdit === undefined || this.scheduleForEdit === null) {
       this.scheduleService.addNewEvent(schedule)
     } else {
       schedule.setId(this.scheduleForEdit.id)

@@ -36,8 +36,8 @@ export class ScheduleService {
     this.selectedSchedulesList = this.allSchedulesList
       .filter(x => twoDatesEqual(x.dateStart, scheduledEventsList.dateStart))
 
-    this.allSchedulesList.splice(this.allSchedulesList.findIndex(x => x.id !== scheduledEventsList.id), 1)
-    this.selectedSchedulesList.splice(this.selectedSchedulesList.findIndex(x => x.id !== scheduledEventsList.id, 1))
+    this.allSchedulesList.splice(this.allSchedulesList.findIndex(x => x.id === scheduledEventsList.id), 1)
+    this.selectedSchedulesList.splice(this.selectedSchedulesList.findIndex(x => x.id === scheduledEventsList.id, 1))
     this.allSchedulesList.push(scheduledEventsList)
     this.selectedSchedulesList.push(scheduledEventsList)
 
