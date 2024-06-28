@@ -2,7 +2,6 @@ import {Component, inject} from '@angular/core';
 import {DAY_MS} from "../../../../_const/days-ms.const";
 import {getRange} from "../../../../_untils/array-builder";
 import {ScheduleService} from "../../../../_services/schedule.service";
-import {twoDatesEqual} from "../../../../_untils/datesMatch";
 
 @Component({
   selector: 'app-month-page',
